@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visualy - Alpha v1.17</title>
+    <title>Visualy - Alpha v1.18</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -268,7 +268,6 @@
         let currentPage = 1;
         const propertiesPerPage = 6;
         let vibeAnswers = {};
-        const API_KEY = "YOUR_API_KEY_HERE"; // This will be used by both API calls
 
         // --- EVENT LISTENERS ---
         imageUpload.addEventListener('change', (e) => {
@@ -426,7 +425,8 @@
         async function getPropertyDescriptions(queryText, images, vibeData) {
             const prompt = createDetailedPrompt(queryText, vibeData, images.length);
             const payload = createGeminiPayload(prompt, images);
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
+            const apiKey = "";
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
             const response = await fetch(apiUrl, {
                 method: 'POST',
@@ -545,7 +545,8 @@ It is absolutely critical that your response is ONLY a valid JSON array that str
              const keywordsString = prop.visualKeywords ? prop.visualKeywords : '';
              const imagePrompt = `Photorealistic, exterior shot of a modern rental property named "${prop.propertyName}". Aesthetic style: ${prop.aestheticStyle}. Key visual features MUST include: ${keywordsString}. Located in ${prop.address}. High-end, architectural photography.`;
              const payload = { instances: [{ prompt: imagePrompt }], parameters: { "sampleCount": 1 } };
-             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${API_KEY}`;
+             const apiKey = "YOUR_API_KEY_HERE";
+             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
 
              try {
                 const response = await fetch(apiUrl, {
