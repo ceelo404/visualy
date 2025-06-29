@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visualy - Alpha v1.19</title>
+    <title>Visualy - Alpha v2.2</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -51,7 +51,7 @@
         }
         .vibe-option.selected {
             transform: scale(1.05);
-            box-shadow: 0 0 0 3px #818cf8; /* indigo-400 */
+            box-shadow: 0 0 0 3px #a78bfa; /* violet-400 */
             background-color: rgba(255, 255, 255, 0.2) !important;
         }
         .color-swatch {
@@ -237,8 +237,6 @@
         const textInput = document.getElementById('text-input');
         const imageUpload = document.getElementById('image-upload');
         const imagePreviewContainer = document.getElementById('image-preview-container');
-        const uploadIcon = document.getElementById('upload-icon');
-        const uploadText = document.getElementById('upload-text');
         const findMatchesBtn = document.getElementById('find-matches-btn');
         const btnText = document.getElementById('btn-text');
         const btnLoader = document.getElementById('btn-loader');
@@ -270,6 +268,7 @@
         let currentPage = 1;
         const propertiesPerPage = 6;
         let vibeAnswers = {};
+        const API_KEY = "YOUR_API_KEY_HERE";
 
         // --- EVENT LISTENERS ---
         imageUpload.addEventListener('change', (e) => {
@@ -427,8 +426,7 @@
         async function getPropertyDescriptions(queryText, images, vibeData) {
             const prompt = createDetailedPrompt(queryText, vibeData, images.length);
             const payload = createGeminiPayload(prompt, images);
-            const apiKey = "YOUR_API_KEY_HERE";
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
 
             const response = await fetch(apiUrl, {
                 method: 'POST',
@@ -472,7 +470,7 @@ The user has also provided the following answers to vibe questions:
 Your analysis MUST follow these steps:
 1.  **Holistic Vibe Deconstruction:** Synthesize ALL uploaded images AND the vibe question answers to create a single, cohesive "Lifestyle Profile."
 2.  **Translate to Home Style:** Convert this profile into a corresponding architectural and interior design style.
-3.  **Visual Keyword Extraction:** Create a "visualKeywords" field. This MUST be a single string containing ONLY 3 to 5 comma-separated keywords. Example: "exposed brick, industrial lighting, large windows". This is a strict rule: DO NOT EXCEED 5 KEYWORDS.
+3.  **Visual Keyword Extraction:** Create a "visualKeywords" field. This MUST be a single string containing 3 to 5 comma-separated keywords. Example: "exposed brick, industrial lighting, large windows". This is a strict rule: DO NOT EXCEED 5 KEYWORDS.
 4.  **Lifestyle & Contact Analysis:** For each property, generate realistic details.
     -   **Address:** First, generate a full, realistic address for the property. This is a NON-NEGOTIABLE first step.
     -   **Proximity Details:** Based *only* on the generated address, provide a detailed description string for each proximity category. This string must include an overall score (e.g., "Score: 8/10") and mention at least 2-3 specific, named venues.
@@ -547,8 +545,7 @@ It is absolutely critical that your response is ONLY a valid JSON array that str
              const keywordsString = prop.visualKeywords ? prop.visualKeywords : '';
              const imagePrompt = `Photorealistic, exterior shot of a modern rental property named "${prop.propertyName}". Aesthetic style: ${prop.aestheticStyle}. Key visual features MUST include: ${keywordsString}. Located in ${prop.address}. High-end, architectural photography.`;
              const payload = { instances: [{ prompt: imagePrompt }], parameters: { "sampleCount": 1 } };
-             const apiKey = "YOUR_API_KEY_HERE";
-             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
+             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${API_KEY}`;
 
              try {
                 const response = await fetch(apiUrl, {
@@ -781,6 +778,7 @@ It is absolutely critical that your response is ONLY a valid JSON array that str
                 keywordsHtml = prop.visualKeywords.split(',')
                     .map(keyword => keyword.trim())
                     .filter(k => k)
+                    .slice(0, 5) // Ensure we only ever show a max of 5
                     .map(keyword => `<span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">${keyword}</span>`)
                     .join('');
             }
