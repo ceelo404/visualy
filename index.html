@@ -51,8 +51,7 @@
         }
         .vibe-option.selected {
             transform: scale(1.05);
-            box-shadow: 0 0 0 3px #a78bfa; /* violet-400 */
-            background-color: rgba(255, 255, 255, 0.2) !important;
+            box-shadow: 0 0 0 3px #818cf8; /* indigo-400 */
         }
         .color-swatch {
             width: 24px;
@@ -93,22 +92,22 @@
         <main id="main-content" class="container mx-auto max-w-5xl p-4 md:p-8">
             <!-- Search View Content -->
             <div id="search-view">
-                <div class="relative bg-white rounded-2xl shadow-xl overflow-hidden">
+                 <div class="relative rounded-2xl shadow-2xl overflow-hidden">
                     <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop" alt="Stylish home background" class="absolute inset-0 w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-gray-900 bg-opacity-60"></div>
-                    <div class="relative p-8 md:p-12">
-                        <div class="text-center">
-                            <h2 class="text-4xl md:text-5xl font-bold text-white mb-4">Find a Home That Gets Your Style.</h2>
-                            <p class="text-lg text-white/90 mb-8 max-w-2xl mx-auto">Upload any image that represents your personal vibe—art, fashion, interiors—and we'll find homes that match your unique aesthetic.</p>
-                        </div>
+                    <div class="absolute inset-0 bg-black/60"></div>
+                    <div class="relative p-8 md:p-12 text-center">
+                        <h2 class="text-4xl md:text-5xl font-bold text-white mb-4">Find a Home That Gets Your Style.</h2>
+                        <p class="text-lg text-white/90 mb-8 max-w-2xl mx-auto">Upload any image that represents your personal vibe—art, fashion, interiors—and we'll find homes that match your unique aesthetic.</p>
 
                         <!-- Input Section -->
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start max-w-4xl mx-auto">
+                            <!-- Text Input -->
                             <div>
-                                <label for="text-input" class="block text-sm font-medium text-white/80 mb-2">Refine Location or Style (Optional)</label>
+                                <label for="text-input" class="block text-sm font-medium text-white/80 mb-2 text-left">Refine Location or Style (Optional)</label>
                                 <input type="text" id="text-input" class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 transition" placeholder="e.g., 'near downtown Atlanta'">
                             </div>
 
+                            <!-- Image Input -->
                             <div class="flex flex-col items-center justify-center w-full">
                                 <label for="image-upload" class="flex flex-col items-center justify-center w-full h-32 md:h-full border-2 border-white/20 border-dashed rounded-lg cursor-pointer bg-white/10 hover:bg-white/20 transition">
                                     <div class="flex flex-col items-center justify-center">
@@ -120,8 +119,8 @@
                                 <div id="image-preview-container" class="mt-4 flex flex-wrap gap-4 justify-center"></div>
                             </div>
                         </div>
-
-                        <!-- Vibe Questions Section -->
+                        
+                         <!-- Vibe Questions Section -->
                         <div class="mt-6 text-center">
                             <button id="refine-vibe-btn" class="text-white/80 hover:text-white font-semibold">
                                 Refine Your Vibe <i class="fas fa-chevron-down ml-1 transition-transform"></i>
@@ -130,6 +129,7 @@
 
                         <div id="vibe-questions" class="hidden mt-6 pt-6 border-t border-white/20">
                              <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <!-- Question 1: Weekend -->
                                 <div>
                                     <h4 class="font-semibold text-white mb-3 text-center">Ideal Weekend?</h4>
                                     <div class="space-y-3" data-question="weekend">
@@ -144,6 +144,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                <!-- Question 2: Colors -->
                                 <div>
                                     <h4 class="font-semibold text-white mb-3 text-center">Color Palette?</h4>
                                     <div class="space-y-3" data-question="colors">
@@ -161,6 +162,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                 <!-- Question 3: Materials -->
                                 <div>
                                     <h4 class="font-semibold text-white mb-3 text-center">Primary Material?</h4>
                                     <div class="space-y-3" data-question="materials">
@@ -427,6 +429,7 @@
         async function getPropertyDescriptions(queryText, images, vibeData) {
             const prompt = createDetailedPrompt(queryText, vibeData, images.length);
             const payload = createGeminiPayload(prompt, images);
+            // IMPORTANT: Replace with your actual API key for deployment
             const apiKey = "AIzaSyCm_n7QMUrFtywx8BNyofIdavg7Hmk-vJE";
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
@@ -471,7 +474,7 @@ The user has also provided the following answers to vibe questions:
 Your analysis MUST follow these steps:
 1.  **Holistic Vibe Deconstruction:** Synthesize ALL uploaded images AND the vibe question answers to create a single, cohesive "Lifestyle Profile."
 2.  **Translate to Home Style:** Convert this profile into a corresponding architectural and interior design style.
-3.  **Visual Keyword Extraction:** Create a "visualKeywords" field. This MUST be a single string containing 3 to 5 comma-separated keywords. Example: "exposed brick, industrial lighting, large windows".
+3.  **Visual Keyword Extraction:** Create a "visualKeywords" field. This MUST be a single string containing 3 to 5 comma-separated keywords. Example: "exposed brick, industrial lighting, large windows". Do NOT exceed 5 keywords. This is a strict rule.
 4.  **Lifestyle & Contact Analysis:** For each property, generate realistic details.
     -   **Address:** First, generate a full, realistic address for the property. This is a NON-NEGOTIABLE first step. If you cannot generate a valid address, do not proceed with this property.
     -   **Proximity Details:** Based *only* on the generated address, provide a detailed description string for each proximity category. This string must include an overall score (e.g., "Score: 8/10") and mention at least 2-3 specific, named venues.
@@ -482,6 +485,7 @@ Your analysis MUST follow these steps:
     - \`propertyName\` must be creative and unique.
     - \`address\` MUST be a valid, realistic street address.
     - \`listingUrl\` MUST be a valid, real Google search URL.
+    - The 'visualKeywords' string MUST NOT contain more than 5 keywords.
     - All other fields (price, score, contact, proximity) must be realistically filled.
 3.  **JSON ONLY:** Your entire response MUST be a single, valid JSON array of 18 properties. Do not include any other text, notes, or markdown.
 
@@ -545,7 +549,7 @@ It is absolutely critical that your response is ONLY a valid JSON array that str
              const keywordsString = prop.visualKeywords ? prop.visualKeywords : '';
              const imagePrompt = `Photorealistic, exterior shot of a modern rental property named "${prop.propertyName}". Aesthetic style: ${prop.aestheticStyle}. Key visual features MUST include: ${keywordsString}. Located in ${prop.address}. High-end, architectural photography.`;
              const payload = { instances: [{ prompt: imagePrompt }], parameters: { "sampleCount": 1 } };
-             const apiKey = ""; // Managed by environment
+             const apiKey = "AIzaSyCm_n7QMUrFtywx8BNyofIdavg7Hmk-vJE"; // User provided API key
              const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
 
              try {
@@ -772,10 +776,15 @@ It is absolutely critical that your response is ONLY a valid JSON array that str
         }
 
         function showDetailsModal(prop) {
+            modalContent.innerHTML = ''; // Clear previous content
+
             let keywordsHtml = '<p class="text-sm text-gray-500">No specific aesthetic keywords were identified.</p>';
             if (prop.visualKeywords && typeof prop.visualKeywords === 'string') {
                 keywordsHtml = prop.visualKeywords.split(',')
-                    .map(keyword => `<span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">${keyword.trim()}</span>`)
+                    .map(keyword => keyword.trim())
+                    .filter(k => k)
+                    .slice(0, 5) // Ensure we only ever show a max of 5
+                    .map(keyword => `<span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">${keyword}</span>`)
                     .join('');
             }
             
