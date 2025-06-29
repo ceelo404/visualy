@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visualy - Alpha v2.5</title>
+    <title>Visualy - Alpha v2.6</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- IMPORTANT: This script loads your API key. Make sure config.js exists. -->
+    <script src="config.js" defer></script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -394,6 +396,13 @@
                 showError("Please upload at least one photo to perform an aesthetic match.");
                 return;
             }
+            
+            // Re-instated API Key check
+            if (typeof window.API_KEY === 'undefined' || !window.API_KEY) {
+                showError("API Key is not configured. Please ensure config.js is present and correct.");
+                return;
+            }
+
             showSearchView(); 
             
             const queryText = textInput.value;
@@ -425,8 +434,8 @@
         async function getPropertyDescriptions(queryText, images, vibeData) {
             const prompt = createDetailedPrompt(queryText, vibeData, images.length);
             const payload = createGeminiPayload(prompt, images);
-            const apiKey = ""; // API key is handled by the environment.
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+            // Use window.API_KEY to access the key from config.js
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${window.API_KEY}`;
 
             const response = await fetch(apiUrl, {
                 method: 'POST',
@@ -545,8 +554,8 @@ It is absolutely critical that your response is ONLY a valid JSON array that str
            const keywordsString = prop.visualKeywords ? prop.visualKeywords : '';
            const imagePrompt = `Photorealistic, exterior shot of a modern rental property named "${prop.propertyName}". Aesthetic style: ${prop.aestheticStyle}. Key visual features MUST include: ${keywordsString}. Located in ${prop.address}. High-end, architectural photography.`;
            const payload = { instances: [{ prompt: imagePrompt }], parameters: { "sampleCount": 1 } };
-           const apiKey = ""; // API key is handled by the environment.
-           const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
+           // Use window.API_KEY to access the key from config.js
+           const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${window.API_KEY}`;
 
            try {
                 const response = await fetch(apiUrl, {
