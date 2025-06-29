@@ -64,9 +64,6 @@
         .placeholder-white::placeholder {
             color: rgba(255, 255, 255, 0.6);
         }
-        .star-rating i {
-            color: #f59e0b; /* amber-500 */
-        }
     </style>
 </head>
 <body class="bg-gray-100">
@@ -774,9 +771,13 @@ It is absolutely critical that your response is ONLY a valid JSON array that str
         }
 
         function showDetailsModal(prop) {
+            modalContent.innerHTML = ''; // Clear previous content
+            
             let keywordsHtml = '<p class="text-sm text-gray-500">No specific aesthetic keywords were identified.</p>';
             if (prop.visualKeywords && typeof prop.visualKeywords === 'string') {
-                keywordsHtml = prop.visualKeywords.split(',').map(keyword => `<span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">${keyword.trim()}</span>`).join('');
+                keywordsHtml = prop.visualKeywords.split(',')
+                    .map(keyword => `<span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">${keyword.trim()}</span>`)
+                    .join('');
             }
             
             const renderCategory = (category, data, iconClass) => {
@@ -785,7 +786,7 @@ It is absolutely critical that your response is ONLY a valid JSON array that str
                 if (typeof data === 'string') {
                     const match = data.match(/Score: (\d+(\.\d+)?)/i);
                     score = match ? parseFloat(match[1]) : 0;
-                    description = data.replace(/Score: \d+(\.\d+)?\.\s*/i, '');
+                    description = data.replace(/Score: \d+(\.\d+)?\.\s*/i, '').trim();
                 }
                 const scoreColor = score > 7 ? 'bg-green-500' : score > 4 ? 'bg-yellow-500' : 'bg-red-500';
 
@@ -804,6 +805,7 @@ It is absolutely critical that your response is ONLY a valid JSON array that str
             }
 
             modalContent.innerHTML = `
+                <h4 class="text-xl font-bold text-gray-900 mb-4">${prop.propertyName || 'Property Details'}</h4>
                 <div class="space-y-6">
                      <div>
                         <h5 class="font-bold text-gray-800 mb-2 border-b pb-2">Aesthetic Profile</h5>
@@ -846,3 +848,4 @@ It is absolutely critical that your response is ONLY a valid JSON array that str
     </script>
 </body>
 </html>
+
