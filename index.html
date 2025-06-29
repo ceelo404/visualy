@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visualy - AI Property Matcher</title>
+    <title>Visualy - Alpha v1.13</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- IMPORTANT: This file must exist and contain your API Key for the live version -->
+    <script src="config.js"></script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -64,6 +66,9 @@
         }
         .placeholder-white::placeholder {
             color: rgba(255, 255, 255, 0.6);
+        }
+        .star-rating i {
+            color: #f59e0b; /* amber-500 */
         }
     </style>
 </head>
@@ -425,8 +430,7 @@
         async function getPropertyDescriptions(queryText, images, vibeData) {
             const prompt = createDetailedPrompt(queryText, vibeData, images.length);
             const payload = createGeminiPayload(prompt, images);
-            const apiKey = "AIzaSyBwvUThTBuHaO-W4c02GyhF8oeiEZ4uGZ0";
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
 
             const response = await fetch(apiUrl, {
                 method: 'POST',
@@ -470,9 +474,9 @@ The user has also provided the following answers to vibe questions:
 Your analysis MUST follow these steps:
 1.  **Holistic Vibe Deconstruction:** Synthesize ALL uploaded images AND the vibe question answers to create a single, cohesive "Lifestyle Profile."
 2.  **Translate to Home Style:** Convert this profile into a corresponding architectural and interior design style.
-3.  **Visual Keyword Extraction:** Create a "visualKeywords" field. This MUST be a single string containing 3 to 5 comma-separated keywords. Example: "exposed brick, industrial lighting, large windows". Do NOT exceed 5 keywords. This is a strict rule.
+3.  **Visual Keyword Extraction:** Create a "visualKeywords" field. This MUST be a single string containing 3 to 5 comma-separated keywords. Example: "exposed brick, industrial lighting, large windows". This is a strict rule: DO NOT EXCEED 5 KEYWORDS.
 4.  **Lifestyle & Contact Analysis:** For each property, generate realistic details.
-    -   **Address:** First, generate a full, realistic address for the property. This is a NON-NEGOTIABLE first step. If you cannot generate a valid address, do not proceed with this property.
+    -   **Address:** First, generate a full, realistic address for the property. This is a NON-NEGOTIABLE first step.
     -   **Proximity Details:** Based *only* on the generated address, provide a detailed description string for each proximity category. This string must include an overall score (e.g., "Score: 8/10") and mention at least 2-3 specific, named venues.
 
 **CRITICAL RULES FOR RESPONSE FORMATTING:**
@@ -545,8 +549,7 @@ It is absolutely critical that your response is ONLY a valid JSON array that str
              const keywordsString = prop.visualKeywords ? prop.visualKeywords : '';
              const imagePrompt = `Photorealistic, exterior shot of a modern rental property named "${prop.propertyName}". Aesthetic style: ${prop.aestheticStyle}. Key visual features MUST include: ${keywordsString}. Located in ${prop.address}. High-end, architectural photography.`;
              const payload = { instances: [{ prompt: imagePrompt }], parameters: { "sampleCount": 1 } };
-             const apiKey = "";
-             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
+             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${API_KEY}`;
 
              try {
                 const response = await fetch(apiUrl, {
@@ -772,6 +775,8 @@ It is absolutely critical that your response is ONLY a valid JSON array that str
         }
 
         function showDetailsModal(prop) {
+            modalContent.innerHTML = ''; // Clear previous content
+
             let keywordsHtml = '<p class="text-sm text-gray-500">No specific aesthetic keywords were identified.</p>';
             if (prop.visualKeywords && typeof prop.visualKeywords === 'string') {
                 keywordsHtml = prop.visualKeywords.split(',')
@@ -806,7 +811,7 @@ It is absolutely critical that your response is ONLY a valid JSON array that str
             }
 
             modalContent.innerHTML = `
-                <h4 class="text-xl font-bold text-gray-900 mb-4">${prop.propertyName || 'Property Details'}</h4>
+                 <h4 class="text-xl font-bold text-gray-900 mb-4">${prop.propertyName || 'Property Details'}</h4>
                 <div class="space-y-6">
                      <div>
                         <h5 class="font-bold text-gray-800 mb-2 border-b pb-2">Aesthetic Profile</h5>
@@ -848,4 +853,5 @@ It is absolutely critical that your response is ONLY a valid JSON array that str
         });
     </script>
 </body>
-</html>  
+</html>
+
