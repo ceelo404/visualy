@@ -430,7 +430,7 @@
         async function getPropertyDescriptions(queryText, images, vibeData) {
             const prompt = createDetailedPrompt(queryText, vibeData, images.length);
             const payload = createGeminiPayload(prompt, images);
-            const apiKey = "";
+            const apiKey = "AIzaSyCm_n7QMUrFtywx8BNyofIdavg7Hmk-vJE";
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
             const response = await fetch(apiUrl, {
@@ -446,15 +446,26 @@
 
             const result = await response.json();
             const jsonText = result.candidates?.[0]?.content?.parts?.[0]?.text;
-            
+            console.log("Raw AI Response Text:", jsonText);
+
             if (jsonText) {
-                // Clean the response to remove potential markdown and ensure it's a valid JSON string.
-                const cleanedJsonText = jsonText.replace(/```json/g, '').replace(/```/g, '').trim();
-                console.log("Cleaned AI Response Text:", cleanedJsonText);
-                try {
+                 try {
+                    // Attempt to fix potential JSON issues before parsing
+                    let fixedJsonText = jsonText.trim();
+                    // Handle cases where the response might not be a perfectly formed array
+                    if (!fixedJsonText.startsWith('[')) {
+                        fixedJsonText = '[' + fixedJsonText;
+                    }
+                    if (!fixedJsonText.endsWith(']')) {
+                         // Find the last valid closing brace and bracket
+                        let lastBrace = fixedJsonText.lastIndexOf('}');
+                        if (lastBrace !== -1) {
+                           fixedJsonText = fixedJsonText.substring(0, lastBrace + 1) + ']';
+                        }
+                    }
                     return JSON.parse(cleanedJsonText);
                 } catch (e) {
-                    throw new Error(`The AI returned an invalid JSON format. Error: ${e.message}. Raw response was: "${cleanedJsonText}"`);
+                    throw new Error(`The AI returned an invalid JSON format. Error: ${e.message}. Raw response was: "${jsonText}"`);
                 }
             } else {
                  throw new Error("Received an empty response from the AI.");
@@ -551,7 +562,7 @@ It is absolutely critical that your response is ONLY a valid JSON array that str
              const keywordsString = prop.visualKeywords ? prop.visualKeywords : '';
              const imagePrompt = `Photorealistic, exterior shot of a modern rental property named "${prop.propertyName}". Aesthetic style: ${prop.aestheticStyle}. Key visual features MUST include: ${keywordsString}. Located in ${prop.address}. High-end, architectural photography.`;
              const payload = { instances: [{ prompt: imagePrompt }], parameters: { "sampleCount": 1 } };
-             const apiKey = ""; 
+             const apiKey = "AIzaSyCm_n7QMUrFtywx8BNyofIdavg7Hmk-vJE";
              const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
 
              try {
@@ -778,6 +789,8 @@ It is absolutely critical that your response is ONLY a valid JSON array that str
         }
 
         function showDetailsModal(prop) {
+            modalContent.innerHTML = ''; // Clear previous content
+
             let keywordsHtml = '<p class="text-sm text-gray-500">No specific aesthetic keywords were identified.</p>';
             if (prop.visualKeywords && typeof prop.visualKeywords === 'string') {
                 keywordsHtml = prop.visualKeywords.split(',')
