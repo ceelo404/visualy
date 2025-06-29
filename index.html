@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visualy - Alpha v3.0</title>
+    <title>Visualy - Alpha v3.1</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -467,7 +467,7 @@
             }
             
             function createDetailedPrompt(queryText, vibeData, imageCount) {
-                let prompt = `You are a personal style expert and real estate scout. Your primary task is to translate a user's personal aesthetic from one or more images AND a set of vibe questions into a matching home and lifestyle. Find 18 hyper-realistic, comparable rental properties based on this analysis.
+                let prompt = `You are a personal style expert and real estate scout. Your primary task is to translate a user's personal aesthetic from one or more images AND a set of vibe questions into a matching home and lifestyle. Find a set of hyper-realistic, comparable rental properties based on this analysis.
 
 The user's optional text query for refinement is: "${queryText}". 
 The user has provided ${imageCount} images to define their style. These are the primary source of truth for the user's personal vibe.
@@ -478,25 +478,26 @@ The user has also provided the following answers to vibe questions:
 
                 prompt += `
 
-Your analysis MUST follow these steps:
-1.  **Holistic Vibe Deconstruction:** Synthesize ALL uploaded images AND the vibe question answers to create a single, cohesive "Lifestyle Profile."
-2.  **Translate to Home Style:** Convert this profile into a corresponding architectural and interior design style.
-3.  **Visual Keyword Extraction:** Create a "visualKeywords" field. This MUST be a single string containing ONLY 3 to 5 comma-separated keywords. Example: "exposed brick, industrial lighting, large windows". This is a strict rule: DO NOT EXCEED 5 KEYWORDS.
-4.  **Lifestyle & Contact Analysis:** For each property, generate realistic details.
-    -   **Address:** First, generate a full, realistic address for the property. This is a NON-NEGOTIABLE first step.
-    -   **Proximity Details:** Based *only* on the generated address, provide a detailed description string for each proximity category. This string must include an overall score (e.g., "Score: 8/10") and mention at least 2-3 specific, named venues.
+**CRITICAL ANALYSIS AND GENERATION PROTOCOL:**
 
-**CRITICAL RULES FOR RESPONSE FORMATTING:**
-1.  **COMPLETE DATA IS MANDATORY:** Every property object MUST have a valid, non-empty value for ALL fields.
-2.  **VALID PROPERTY DETAILS:**
-    - \`propertyName\` must be creative and unique.
-    - \`address\` MUST be a valid, realistic street address.
-    - \`listingUrl\` MUST be a valid, real Google search URL.
-    - The 'visualKeywords' string MUST NOT contain more than 5 keywords.
-    - All other fields (price, score, contact, proximity) must be realistically filled.
-3.  **JSON ONLY:** Your entire response MUST be a single, valid JSON array of 18 properties. Do not include any other text, notes, or markdown.
+Your entire process for EACH of the properties must follow this exact sequence. Deviation will result in a failed task.
 
-It is absolutely critical that your response is ONLY a valid JSON array that strictly follows this schema.`;
+1.  **Synthesize Aesthetic:** First, analyze all provided images and vibe data to create a cohesive "Lifestyle Profile." This profile will define the architectural style, interior design, and overall feeling (e.g., "Minimalist, artistic, loves natural light and quiet evenings").
+
+2.  **GENERATE A REALISTIC, VERIFIABLE ADDRESS:** This is the most critical step. Based on the synthesized aesthetic and any location hints in the query ("${queryText}"), you MUST generate a full, realistic street address for the property.
+    * **THIS IS NON-NEGOTIABLE.** An example of a valid address is "123 Main St, Brooklyn, NY 11201".
+    * The property MUST have an address. Do not proceed without one.
+
+3.  **Generate Property Details:** Based *only* on the address generated in Step 2, provide the remaining details:
+    * **Proximity Scores & Venues:** For each proximity category (restaurants, nightlife, parks, transportation), use the real-world location to provide a detailed description string. This string MUST include a "Score: X/10" and mention 2-3 specific, named, real-world venues nearby. If the address is in a remote area, the score should reflect that (e.g., "Score: 2/10").
+    * **All other fields** (\`propertyName\`, \`price\`, \`size\`, etc.) must be creative and consistent with the location and aesthetic.
+
+**RESPONSE FORMATTING RULES:**
+1.  **ADDRESS IS MANDATORY:** Every single property object in the JSON array MUST have a valid, non-empty "address" field.
+2.  **COMPLETE DATA:** All other fields must also be filled. No null or empty values.
+3.  **JSON ONLY:** Your entire response MUST be a single, valid JSON array of properties. Do not include any other text, notes, or markdown.
+
+Failure to provide a valid address for every property will render the entire response useless. This is your primary directive.`;
                 return prompt;
             }
 
