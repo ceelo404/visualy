@@ -447,10 +447,12 @@
             const jsonText = result.candidates?.[0]?.content?.parts?.[0]?.text;
             
             if (jsonText) {
+                const cleanedJsonText = jsonText.replace(/```json/g, '').replace(/```/g, '').trim();
+                console.log("Cleaned AI Response Text:", cleanedJsonText);
                 try {
-                    return JSON.parse(jsonText);
+                    return JSON.parse(cleanedJsonText);
                 } catch (e) {
-                    throw new Error(`The AI returned an invalid JSON format. Error: ${e.message}. Raw response was: "${jsonText}"`);
+                    throw new Error(`The AI returned an invalid JSON format. Error: ${e.message}. Raw response was: "${cleanedJsonText}"`);
                 }
             } else {
                  throw new Error("Received an empty response from the AI.");
@@ -547,7 +549,7 @@ It is absolutely critical that your response is ONLY a valid JSON array that str
              const keywordsString = prop.visualKeywords ? prop.visualKeywords : '';
              const imagePrompt = `Photorealistic, exterior shot of a modern rental property named "${prop.propertyName}". Aesthetic style: ${prop.aestheticStyle}. Key visual features MUST include: ${keywordsString}. Located in ${prop.address}. High-end, architectural photography.`;
              const payload = { instances: [{ prompt: imagePrompt }], parameters: { "sampleCount": 1 } };
-             const apiKey = "AIzaSyCm_n7QMUrFtywx8BNyofIdavg7Hmk-vJE";
+             const apiKey = "";
              const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
 
              try {
@@ -774,12 +776,13 @@ It is absolutely critical that your response is ONLY a valid JSON array that str
         }
 
         function showDetailsModal(prop) {
+            modalContent.innerHTML = ''; // Clear previous content
+
             let keywordsHtml = '<p class="text-sm text-gray-500">No specific aesthetic keywords were identified.</p>';
             if (prop.visualKeywords && typeof prop.visualKeywords === 'string') {
                 keywordsHtml = prop.visualKeywords.split(',')
                     .map(keyword => keyword.trim())
                     .filter(k => k)
-                    .slice(0, 5) // Ensure we only ever show a max of 5
                     .map(keyword => `<span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">${keyword}</span>`)
                     .join('');
             }
