@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visualy - Alpha v3.1</title>
+    <title>Visualy - Alpha v3.3</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -231,7 +231,6 @@
         </div>
     </div>
 
-
     <script type="module">
         document.addEventListener('DOMContentLoaded', () => {
             // --- API KEY CONFIGURATION ---
@@ -272,7 +271,7 @@
             let allFetchedProperties = [];
             let displayedProperties = [];
             let currentPage = 1;
-            const propertiesPerPage = 6;
+            const propertiesPerPage = 12;
             let vibeAnswers = {};
 
             // --- EVENT LISTENERS ---
@@ -467,7 +466,7 @@
             }
             
             function createDetailedPrompt(queryText, vibeData, imageCount) {
-                let prompt = `You are a personal style expert and real estate scout. Your primary task is to translate a user's personal aesthetic from one or more images AND a set of vibe questions into a matching home and lifestyle. Find a set of hyper-realistic, comparable rental properties based on this analysis.
+                let prompt = `You are a personal style expert and real estate scout. Your primary task is to translate a user's personal aesthetic from one or more images AND a set of vibe questions into a matching home and lifestyle. Find a set of at least 12, and up to 18, hyper-realistic, comparable rental properties based on this analysis.
 
 The user's optional text query for refinement is: "${queryText}". 
 The user has provided ${imageCount} images to define their style. These are the primary source of truth for the user's personal vibe.
@@ -490,7 +489,7 @@ Your entire process for EACH of the properties must follow this exact sequence. 
 
 3.  **Generate Property Details:** Based *only* on the address generated in Step 2, provide the remaining details:
     * **Proximity Scores & Venues:** For each proximity category (restaurants, nightlife, parks, transportation), use the real-world location to provide a detailed description string. This string MUST include a "Score: X/10" and mention 2-3 specific, named, real-world venues nearby. If the address is in a remote area, the score should reflect that (e.g., "Score: 2/10").
-    * **All other fields** (\`propertyName\`, \`price\`, \`size\`, etc.) must be creative and consistent with the location and aesthetic.
+    * **All other fields** ('propertyName', 'price', 'size', etc.) must be creative and consistent with the location and aesthetic.
 
 **RESPONSE FORMATTING RULES:**
 1.  **ADDRESS IS MANDATORY:** Every single property object in the JSON array MUST have a valid, non-empty "address" field.
@@ -650,6 +649,8 @@ Failure to provide a valid address for every property will render the entire res
                     const cardId = `prop-card-${globalIndex}`;
                     const imageId = `prop-image-${globalIndex}`;
                     const isLiked = likedProperties.some(p => p.propertyId === prop.propertyId);
+                    const mapUrl = prop.address ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(prop.address)}` : '#';
+
 
                     const cardWrapper = document.createElement('div');
                     cardWrapper.id = cardId;
@@ -687,7 +688,10 @@ Failure to provide a valid address for every property will render the entire res
                         <div class="p-6 flex flex-col flex-grow">
                             <div class="font-semibold text-sm text-indigo-600 uppercase tracking-wide">${prop.aestheticStyle || 'N/A'} &middot; ${prop.vibe || 'N/A'}</div>
                             <h4 class="text-xl font-bold text-gray-900 mt-1">${prop.propertyName || 'Unnamed Property'}</h4>
-                            <p class="text-gray-600 mt-1">${prop.address || 'Address not available'}</p>
+                            <p class="text-gray-600 mt-1 flex items-center">
+                                <span class="flex-grow">${prop.address || 'Address not available'}</span>
+                                ${prop.address ? `<a href="${mapUrl}" target="_blank" class="ml-2 text-indigo-500 hover:text-indigo-700" title="View on Map"><i class="fas fa-map-marker-alt"></i></a>` : ''}
+                            </p>
                             <div class="mt-4 flex justify-between items-center">
                                 <p class="text-lg font-bold text-gray-800">${prop.price && typeof prop.price === 'number' ? `$${prop.price.toLocaleString()}/mo` : 'Price not available'}</p>
                                 <p class="text-sm text-gray-600">${prop.size || 'Size not available'}</p>
@@ -803,6 +807,15 @@ Failure to provide a valid address for every property will render the entire res
                         .join('');
                 }
                 
+                let mapHtml = '';
+                if (prop.address) {
+                    const mapUrl = `https://www.google.com/maps/embed/v1/place?key=${API_KEY}&q=${encodeURIComponent(prop.address)}`;
+                    mapHtml = `<div class="mt-4">
+                        <h5 class="font-bold text-gray-800 mb-2 border-b pb-2">Location</h5>
+                        <iframe class="w-full h-64 rounded-lg" loading="lazy" allowfullscreen src="${mapUrl}"></iframe>
+                    </div>`;
+                }
+
                 const renderCategory = (category, data, iconClass) => {
                     let score = 0;
                     let description = data || 'N/A';
@@ -830,6 +843,7 @@ Failure to provide a valid address for every property will render the entire res
                 modalContent.innerHTML = `
                     <h4 class="text-xl font-bold text-gray-900 mb-4">${prop.propertyName || 'Property Details'}</h4>
                     <div class="space-y-6">
+                        ${mapHtml}
                         <div>
                             <h5 class="font-bold text-gray-800 mb-2 border-b pb-2">Aesthetic Profile</h5>
                             <div class="flex flex-wrap">
