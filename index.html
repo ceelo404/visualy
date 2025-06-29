@@ -52,6 +52,7 @@
         .vibe-option.selected {
             transform: scale(1.05);
             box-shadow: 0 0 0 3px #818cf8; /* indigo-400 */
+            background-color: rgba(255, 255, 255, 0.2) !important;
         }
         .color-swatch {
             width: 24px;
@@ -429,7 +430,7 @@
         async function getPropertyDescriptions(queryText, images, vibeData) {
             const prompt = createDetailedPrompt(queryText, vibeData, images.length);
             const payload = createGeminiPayload(prompt, images);
-            const apiKey = "";
+            const apiKey = "YOUR_API_KEY_HERE";
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
             const response = await fetch(apiUrl, {
@@ -549,7 +550,7 @@ It is absolutely critical that your response is ONLY a valid JSON array that str
              const keywordsString = prop.visualKeywords ? prop.visualKeywords : '';
              const imagePrompt = `Photorealistic, exterior shot of a modern rental property named "${prop.propertyName}". Aesthetic style: ${prop.aestheticStyle}. Key visual features MUST include: ${keywordsString}. Located in ${prop.address}. High-end, architectural photography.`;
              const payload = { instances: [{ prompt: imagePrompt }], parameters: { "sampleCount": 1 } };
-             const apiKey = "";
+             const apiKey = "YOUR_API_KEY_HERE"; // IMPORTANT: Replace with your actual API key for deployment
              const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
 
              try {
@@ -777,12 +778,13 @@ It is absolutely critical that your response is ONLY a valid JSON array that str
 
         function showDetailsModal(prop) {
             modalContent.innerHTML = ''; // Clear previous content
-
+            
             let keywordsHtml = '<p class="text-sm text-gray-500">No specific aesthetic keywords were identified.</p>';
             if (prop.visualKeywords && typeof prop.visualKeywords === 'string') {
                 keywordsHtml = prop.visualKeywords.split(',')
                     .map(keyword => keyword.trim())
                     .filter(k => k)
+                    .slice(0, 5) // Ensure we only ever show a max of 5
                     .map(keyword => `<span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">${keyword}</span>`)
                     .join('');
             }
