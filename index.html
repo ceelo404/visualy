@@ -51,8 +51,7 @@
         }
         .vibe-option.selected {
             transform: scale(1.05);
-            box-shadow: 0 0 0 3px #a78bfa; /* violet-400 */
-            background-color: rgba(255, 255, 255, 0.2) !important;
+            box-shadow: 0 0 0 3px #818cf8; /* indigo-400 */
         }
         .color-swatch {
             width: 24px;
@@ -430,7 +429,7 @@
         async function getPropertyDescriptions(queryText, images, vibeData) {
             const prompt = createDetailedPrompt(queryText, vibeData, images.length);
             const payload = createGeminiPayload(prompt, images);
-            const apiKey = "AIzaSyCm_n7QMUrFtywx8BNyofIdavg7Hmk-vJE";
+            const apiKey = "";
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
             const response = await fetch(apiUrl, {
@@ -446,24 +445,10 @@
 
             const result = await response.json();
             const jsonText = result.candidates?.[0]?.content?.parts?.[0]?.text;
-            console.log("Raw AI Response Text:", jsonText);
-
+            
             if (jsonText) {
-                 try {
-                    // Attempt to fix potential JSON issues before parsing
-                    let fixedJsonText = jsonText.trim();
-                    // Handle cases where the response might not be a perfectly formed array
-                    if (!fixedJsonText.startsWith('[')) {
-                        fixedJsonText = '[' + fixedJsonText;
-                    }
-                    if (!fixedJsonText.endsWith(']')) {
-                         // Find the last valid closing brace and bracket
-                        let lastBrace = fixedJsonText.lastIndexOf('}');
-                        if (lastBrace !== -1) {
-                           fixedJsonText = fixedJsonText.substring(0, lastBrace + 1) + ']';
-                        }
-                    }
-                    return JSON.parse(cleanedJsonText);
+                try {
+                    return JSON.parse(jsonText);
                 } catch (e) {
                     throw new Error(`The AI returned an invalid JSON format. Error: ${e.message}. Raw response was: "${jsonText}"`);
                 }
@@ -789,13 +774,12 @@ It is absolutely critical that your response is ONLY a valid JSON array that str
         }
 
         function showDetailsModal(prop) {
-            modalContent.innerHTML = ''; // Clear previous content
-
             let keywordsHtml = '<p class="text-sm text-gray-500">No specific aesthetic keywords were identified.</p>';
             if (prop.visualKeywords && typeof prop.visualKeywords === 'string') {
                 keywordsHtml = prop.visualKeywords.split(',')
                     .map(keyword => keyword.trim())
                     .filter(k => k)
+                    .slice(0, 5) // Ensure we only ever show a max of 5
                     .map(keyword => `<span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">${keyword}</span>`)
                     .join('');
             }
