@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -63,15 +64,11 @@
         .placeholder-white::placeholder {
             color: rgba(255, 255, 255, 0.6);
         }
-        .star-rating i {
-            color: #f59e0b; /* amber-500 */
-        }
     </style>
 </head>
 <body class="bg-gray-100">
 
     <div id="app" class="min-h-screen">
-        <!-- Header -->
         <header class="gradient-bg text-white shadow-md p-6 sticky top-0 z-40">
             <div class="container mx-auto max-w-5xl flex justify-between items-center">
                 <div class="flex items-center space-x-3">
@@ -87,9 +84,7 @@
             </div>
         </header>
 
-        <!-- Main Content -->
         <main id="main-content" class="container mx-auto max-w-5xl p-4 md:p-8">
-            <!-- Search View Content -->
             <div id="search-view">
                  <div class="relative rounded-2xl shadow-2xl overflow-hidden">
                     <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop" alt="Stylish home background" class="absolute inset-0 w-full h-full object-cover">
@@ -98,15 +93,12 @@
                         <h2 class="text-4xl md:text-5xl font-bold text-white mb-4">Find a Home That Gets Your Style.</h2>
                         <p class="text-lg text-white/90 mb-8 max-w-2xl mx-auto">Upload any image that represents your personal vibe—art, fashion, interiors—and we'll find homes that match your unique aesthetic.</p>
 
-                        <!-- Input Section -->
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start max-w-4xl mx-auto">
-                            <!-- Text Input -->
                             <div>
                                 <label for="text-input" class="block text-sm font-medium text-white/80 mb-2 text-left">Refine Location or Style (Optional)</label>
                                 <input type="text" id="text-input" class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 transition" placeholder="e.g., 'near downtown Atlanta'">
                             </div>
 
-                            <!-- Image Input -->
                             <div class="flex flex-col items-center justify-center w-full">
                                 <label for="image-upload" class="flex flex-col items-center justify-center w-full h-32 md:h-full border-2 border-white/20 border-dashed rounded-lg cursor-pointer bg-white/10 hover:bg-white/20 transition">
                                     <div class="flex flex-col items-center justify-center">
@@ -119,8 +111,7 @@
                             </div>
                         </div>
                         
-                         <!-- Vibe Questions Section -->
-                        <div class="mt-6 text-center">
+                         <div class="mt-6 text-center">
                             <button id="refine-vibe-btn" class="text-white/80 hover:text-white font-semibold">
                                 Refine Your Vibe <i class="fas fa-chevron-down ml-1 transition-transform"></i>
                             </button>
@@ -128,7 +119,6 @@
 
                         <div id="vibe-questions" class="hidden mt-6 pt-6 border-t border-white/20">
                              <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                <!-- Question 1: Weekend -->
                                 <div>
                                     <h4 class="font-semibold text-white mb-3 text-center">Ideal Weekend?</h4>
                                     <div class="space-y-3" data-question="weekend">
@@ -143,7 +133,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- Question 2: Colors -->
                                 <div>
                                     <h4 class="font-semibold text-white mb-3 text-center">Color Palette?</h4>
                                     <div class="space-y-3" data-question="colors">
@@ -161,8 +150,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                 <!-- Question 3: Materials -->
-                                <div>
+                                 <div>
                                     <h4 class="font-semibold text-white mb-3 text-center">Primary Material?</h4>
                                     <div class="space-y-3" data-question="materials">
                                         <div class="vibe-option p-4 border border-white/20 bg-white/10 text-white/80 rounded-lg cursor-pointer text-center hover:bg-white/20" data-value="Natural wood and stone">
@@ -179,7 +167,6 @@
                              </div>
                         </div>
 
-                        <!-- Find Matches Button -->
                         <div class="mt-8 text-center">
                             <button id="find-matches-btn" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-4 px-16 rounded-full transition-transform transform hover:scale-105 shadow-lg focus:outline-none focus:ring-4 focus:ring-indigo-300 text-lg">
                                 <span id="btn-text">Find Matches</span>
@@ -190,7 +177,6 @@
                 </div>
             </div>
 
-            <!-- Results Section (for both Search and Likes) -->
             <div id="results-section" class="mt-12 hidden">
                  <div class="flex justify-between items-center mb-6 flex-wrap">
                     <h3 id="results-title" class="text-2xl font-bold text-gray-800 mb-4 sm:mb-0">Comparable Properties</h3>
@@ -203,27 +189,23 @@
                     </div>
                 </div>
                 <div id="results-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- Results will be injected here -->
-                </div>
+                    </div>
                 <div id="load-more-container" class="mt-10 text-center hidden">
                     <button id="load-more-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-12 rounded-full transition-transform transform hover:scale-105 shadow-lg focus:outline-none focus:ring-4 focus:ring-indigo-300">
                         Load More Results
                     </button>
                 </div>
                  <div id="no-results-message" class="text-center py-12 text-gray-500 hidden">
-                    <!-- Message is set dynamically -->
-                </div>
+                    </div>
             </div>
 
-             <!-- Error Message -->
-            <div id="error-message" class="mt-8 hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg" role="alert">
+             <div id="error-message" class="mt-8 hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg" role="alert">
                 <strong class="font-bold">Oops!</strong>
                 <span class="block sm:inline" id="error-text">Something went wrong. Please try again.</span>
             </div>
         </main>
     </div>
 
-    <!-- Property Details Modal -->
     <div id="details-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex justify-center items-center p-4">
         <div id="modal-container" class="bg-white rounded-lg shadow-xl w-full max-w-lg relative transition-transform transform scale-95">
             <button id="close-modal-btn" class="absolute top-3 right-4 text-gray-400 hover:text-gray-800 text-2xl font-bold">&times;</button>
@@ -444,13 +426,15 @@
 
             const result = await response.json();
             const jsonText = result.candidates?.[0]?.content?.parts?.[0]?.text;
-            console.log("Raw AI Response Text:", jsonText);
-
+            
             if (jsonText) {
+                // First, clean the response to remove potential markdown and ensure it's a valid JSON string.
+                const cleanedJsonText = jsonText.replace(/```json/g, '').replace(/```/g, '').trim();
+                console.log("Cleaned AI Response Text:", cleanedJsonText);
                 try {
-                    return JSON.parse(jsonText);
+                    return JSON.parse(cleanedJsonText);
                 } catch (e) {
-                    throw new Error(`The AI returned an invalid JSON format. Error: ${e.message}. Raw response was: "${jsonText}"`);
+                    throw new Error(`The AI returned an invalid JSON format. Error: ${e.message}. Raw response was: "${cleanedJsonText}"`);
                 }
             } else {
                  throw new Error("Received an empty response from the AI.");
@@ -774,6 +758,8 @@ It is absolutely critical that your response is ONLY a valid JSON array that str
         }
 
         function showDetailsModal(prop) {
+            modalContent.innerHTML = ''; // Clear previous content
+
             let keywordsHtml = '<p class="text-sm text-gray-500">No specific aesthetic keywords were identified.</p>';
             if (prop.visualKeywords && typeof prop.visualKeywords === 'string') {
                 keywordsHtml = prop.visualKeywords.split(',')
