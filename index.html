@@ -425,7 +425,7 @@
         async function getPropertyDescriptions(queryText, images, vibeData) {
             const prompt = createDetailedPrompt(queryText, vibeData, images.length);
             const payload = createGeminiPayload(prompt, images);
-            const apiKey = "";
+            const apiKey = "AIzaSyBwvUThTBuHaO-W4c02GyhF8oeiEZ4uGZ0";
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
             const response = await fetch(apiUrl, {
