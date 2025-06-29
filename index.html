@@ -1,9 +1,8 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visualy - Aesthetic Property Matcher</title>
+    <title>Visualy - AI Property Matcher</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -775,8 +774,6 @@ It is absolutely critical that your response is ONLY a valid JSON array that str
         }
 
         function showDetailsModal(prop) {
-            modalContent.innerHTML = ''; // Clear previous content
-
             let keywordsHtml = '<p class="text-sm text-gray-500">No specific aesthetic keywords were identified.</p>';
             if (prop.visualKeywords && typeof prop.visualKeywords === 'string') {
                 keywordsHtml = prop.visualKeywords.split(',')
