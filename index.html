@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visualy - Alpha v2.4</title>
+    <title>Visualy - Alpha v2.4b</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -82,8 +82,8 @@
                     <h1 class="text-3xl font-bold tracking-tight">Visualy</h1>
                 </div>
                 <div class="flex items-center space-x-4">
-                     <button id="search-nav-btn" class="nav-btn bg-white/20 hover:bg-white/30 font-semibold py-2 px-4 rounded-full transition text-sm">Search</button>
-                     <button id="likes-nav-btn" class="nav-btn bg-white/20 hover:bg-white/30 font-semibold py-2 px-4 rounded-full transition text-sm">My Likes</button>
+                      <button id="search-nav-btn" class="nav-btn bg-white/20 hover:bg-white/30 font-semibold py-2 px-4 rounded-full transition text-sm">Search</button>
+                      <button id="likes-nav-btn" class="nav-btn bg-white/20 hover:bg-white/30 font-semibold py-2 px-4 rounded-full transition text-sm">My Likes</button>
                 </div>
             </div>
         </header>
@@ -93,7 +93,7 @@
             <!-- Search View Content -->
             <div id="search-view">
                  <div class="relative rounded-2xl shadow-2xl overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop" alt="Stylish home background" class="absolute inset-0 w-full h-full object-cover">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop" onerror="this.onerror=null;this.src='https://placehold.co/2070x1000/667eea/ffffff?text=Stylish+Home';" alt="Stylish home background" class="absolute inset-0 w-full h-full object-cover">
                     <div class="absolute inset-0 bg-black/60"></div>
                     <div class="relative p-8 md:p-12 text-center">
                         <h2 class="text-4xl md:text-5xl font-bold text-white mb-4">Find a Home That Gets Your Style.</h2>
@@ -129,55 +129,55 @@
 
                         <div id="vibe-questions" class="hidden mt-6 pt-6 border-t border-white/20">
                              <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                <!-- Question 1: Weekend -->
-                                <div>
-                                    <h4 class="font-semibold text-white mb-3 text-center">Ideal Weekend?</h4>
-                                    <div class="space-y-3" data-question="weekend">
-                                        <div class="vibe-option p-4 border border-white/20 bg-white/10 text-white/80 rounded-lg cursor-pointer text-center hover:bg-white/20" data-value="A quiet night in with a book">
-                                            <i class="fas fa-book-open text-2xl mb-2"></i><p class="text-sm">Quiet Night In</p>
-                                        </div>
-                                        <div class="vibe-option p-4 border border-white/20 bg-white/10 text-white/80 rounded-lg cursor-pointer text-center hover:bg-white/20" data-value="Hosting a dinner party for friends">
-                                             <i class="fas fa-utensils text-2xl mb-2"></i><p class="text-sm">Dinner Party</p>
-                                        </div>
-                                        <div class="vibe-option p-4 border border-white/20 bg-white/10 text-white/80 rounded-lg cursor-pointer text-center hover:bg-white/20" data-value="Exploring the city's nightlife">
-                                             <i class="fas fa-martini-glass-citrus text-2xl mb-2"></i><p class="text-sm">Nightlife</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Question 2: Colors -->
-                                <div>
-                                    <h4 class="font-semibold text-white mb-3 text-center">Color Palette?</h4>
-                                    <div class="space-y-3" data-question="colors">
-                                         <div class="vibe-option p-4 border border-white/20 bg-white/10 text-white/80 rounded-lg cursor-pointer text-center hover:bg-white/20" data-value="Neutral and earthy tones">
-                                            <div><span class="color-swatch" style="background-color: #e2e8f0;"></span><span class="color-swatch" style="background-color: #a0aec0;"></span><span class="color-swatch" style="background-color: #718096;"></span></div>
-                                            <p class="text-sm mt-2">Neutral & Earthy</p>
-                                        </div>
-                                         <div class="vibe-option p-4 border border-white/20 bg-white/10 text-white/80 rounded-lg cursor-pointer text-center hover:bg-white/20" data-value="Warm and cozy colors">
-                                            <div><span class="color-swatch" style="background-color: #fbd38d;"></span><span class="color-swatch" style="background-color: #f6ad55;"></span><span class="color-swatch" style="background-color: #ed8936;"></span></div>
-                                            <p class="text-sm mt-2">Warm & Cozy</p>
-                                        </div>
-                                         <div class="vibe-option p-4 border border-white/20 bg-white/10 text-white/80 rounded-lg cursor-pointer text-center hover:bg-white/20" data-value="Bold and vibrant shades">
-                                            <div><span class="color-swatch" style="background-color: #63b3ed;"></span><span class="color-swatch" style="background-color: #4299e1;"></span><span class="color-swatch" style="background-color: #3182ce;"></span></div>
-                                            <p class="text-sm mt-2">Bold & Vibrant</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                 <!-- Question 3: Materials -->
-                                <div>
-                                    <h4 class="font-semibold text-white mb-3 text-center">Primary Material?</h4>
-                                    <div class="space-y-3" data-question="materials">
-                                        <div class="vibe-option p-4 border border-white/20 bg-white/10 text-white/80 rounded-lg cursor-pointer text-center hover:bg-white/20" data-value="Natural wood and stone">
-                                            <i class="fas fa-tree text-2xl mb-2"></i><p class="text-sm">Wood & Stone</p>
-                                        </div>
-                                        <div class="vibe-option p-4 border border-white/20 bg-white/10 text-white/80 rounded-lg cursor-pointer text-center hover:bg-white/20" data-value="Sleek metal and glass">
-                                            <i class="fas fa-city text-2xl mb-2"></i><p class="text-sm">Metal & Glass</p>
-                                        </div>
-                                        <div class="vibe-option p-4 border border-white/20 bg-white/10 text-white/80 rounded-lg cursor-pointer text-center hover:bg-white/20" data-value="Exposed brick and concrete">
-                                            <i class="fas fa-building text-2xl mb-2"></i><p class="text-sm">Brick & Concrete</p>
-                                        </div>
-                                    </div>
-                                </div>
-                             </div>
+                                 <!-- Question 1: Weekend -->
+                                 <div>
+                                     <h4 class="font-semibold text-white mb-3 text-center">Ideal Weekend?</h4>
+                                     <div class="space-y-3" data-question="weekend">
+                                         <div class="vibe-option p-4 border border-white/20 bg-white/10 text-white/80 rounded-lg cursor-pointer text-center hover:bg-white/20" data-value="A quiet night in with a book">
+                                             <i class="fas fa-book-open text-2xl mb-2"></i><p class="text-sm">Quiet Night In</p>
+                                         </div>
+                                         <div class="vibe-option p-4 border border-white/20 bg-white/10 text-white/80 rounded-lg cursor-pointer text-center hover:bg-white/20" data-value="Hosting a dinner party for friends">
+                                              <i class="fas fa-utensils text-2xl mb-2"></i><p class="text-sm">Dinner Party</p>
+                                         </div>
+                                         <div class="vibe-option p-4 border border-white/20 bg-white/10 text-white/80 rounded-lg cursor-pointer text-center hover:bg-white/20" data-value="Exploring the city's nightlife">
+                                              <i class="fas fa-martini-glass-citrus text-2xl mb-2"></i><p class="text-sm">Nightlife</p>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <!-- Question 2: Colors -->
+                                 <div>
+                                     <h4 class="font-semibold text-white mb-3 text-center">Color Palette?</h4>
+                                     <div class="space-y-3" data-question="colors">
+                                          <div class="vibe-option p-4 border border-white/20 bg-white/10 text-white/80 rounded-lg cursor-pointer text-center hover:bg-white/20" data-value="Neutral and earthy tones">
+                                             <div><span class="color-swatch" style="background-color: #e2e8f0;"></span><span class="color-swatch" style="background-color: #a0aec0;"></span><span class="color-swatch" style="background-color: #718096;"></span></div>
+                                             <p class="text-sm mt-2">Neutral & Earthy</p>
+                                         </div>
+                                          <div class="vibe-option p-4 border border-white/20 bg-white/10 text-white/80 rounded-lg cursor-pointer text-center hover:bg-white/20" data-value="Warm and cozy colors">
+                                             <div><span class="color-swatch" style="background-color: #fbd38d;"></span><span class="color-swatch" style="background-color: #f6ad55;"></span><span class="color-swatch" style="background-color: #ed8936;"></span></div>
+                                             <p class="text-sm mt-2">Warm & Cozy</p>
+                                         </div>
+                                          <div class="vibe-option p-4 border border-white/20 bg-white/10 text-white/80 rounded-lg cursor-pointer text-center hover:bg-white/20" data-value="Bold and vibrant shades">
+                                             <div><span class="color-swatch" style="background-color: #63b3ed;"></span><span class="color-swatch" style="background-color: #4299e1;"></span><span class="color-swatch" style="background-color: #3182ce;"></span></div>
+                                             <p class="text-sm mt-2">Bold & Vibrant</p>
+                                         </div>
+                                     </div>
+                                 </div>
+                                  <!-- Question 3: Materials -->
+                                 <div>
+                                     <h4 class="font-semibold text-white mb-3 text-center">Primary Material?</h4>
+                                     <div class="space-y-3" data-question="materials">
+                                         <div class="vibe-option p-4 border border-white/20 bg-white/10 text-white/80 rounded-lg cursor-pointer text-center hover:bg-white/20" data-value="Natural wood and stone">
+                                             <i class="fas fa-tree text-2xl mb-2"></i><p class="text-sm">Wood & Stone</p>
+                                         </div>
+                                         <div class="vibe-option p-4 border border-white/20 bg-white/10 text-white/80 rounded-lg cursor-pointer text-center hover:bg-white/20" data-value="Sleek metal and glass">
+                                             <i class="fas fa-city text-2xl mb-2"></i><p class="text-sm">Metal & Glass</p>
+                                         </div>
+                                         <div class="vibe-option p-4 border border-white/20 bg-white/10 text-white/80 rounded-lg cursor-pointer text-center hover:bg-white/20" data-value="Exposed brick and concrete">
+                                             <i class="fas fa-building text-2xl mb-2"></i><p class="text-sm">Brick & Concrete</p>
+                                         </div>
+                                     </div>
+                                 </div>
+                              </div>
                         </div>
 
                         <!-- Find Matches Button -->
@@ -406,6 +406,10 @@
             loadMoreContainer.classList.add('hidden');
 
             try {
+                // Check if API_KEY is available
+                if (typeof window.API_KEY === 'undefined' || !window.API_KEY) {
+                    throw new Error("API Key is not configured. Please check your config.js file.");
+                }
                 const properties = await getPropertyDescriptions(queryText, uploadedImages, vibeAnswers);
                 if (properties && properties.length > 0) {
                     properties.forEach(p => p.propertyId = crypto.randomUUID());
@@ -427,7 +431,8 @@
         async function getPropertyDescriptions(queryText, images, vibeData) {
             const prompt = createDetailedPrompt(queryText, vibeData, images.length);
             const payload = createGeminiPayload(prompt, images);
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
+            // *** FIXED: Access API_KEY from the global window object ***
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${window.API_KEY}`;
 
             const response = await fetch(apiUrl, {
                 method: 'POST',
@@ -543,12 +548,13 @@ It is absolutely critical that your response is ONLY a valid JSON array that str
         }
         
         async function generatePropertyImage(prop) {
-             const keywordsString = prop.visualKeywords ? prop.visualKeywords : '';
-             const imagePrompt = `Photorealistic, exterior shot of a modern rental property named "${prop.propertyName}". Aesthetic style: ${prop.aestheticStyle}. Key visual features MUST include: ${keywordsString}. Located in ${prop.address}. High-end, architectural photography.`;
-             const payload = { instances: [{ prompt: imagePrompt }], parameters: { "sampleCount": 1 } };
-             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${API_KEY}`;
+           const keywordsString = prop.visualKeywords ? prop.visualKeywords : '';
+           const imagePrompt = `Photorealistic, exterior shot of a modern rental property named "${prop.propertyName}". Aesthetic style: ${prop.aestheticStyle}. Key visual features MUST include: ${keywordsString}. Located in ${prop.address}. High-end, architectural photography.`;
+           const payload = { instances: [{ prompt: imagePrompt }], parameters: { "sampleCount": 1 } };
+           // *** FIXED: Access API_KEY from the global window object ***
+           const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${window.API_KEY}`;
 
-             try {
+           try {
                 const response = await fetch(apiUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -559,10 +565,10 @@ It is absolutely critical that your response is ONLY a valid JSON array that str
                 if (result.predictions && result.predictions[0].bytesBase64Encoded) {
                     return `data:image/png;base64,${result.predictions[0].bytesBase64Encoded}`;
                 }
-             } catch (error) {
+           } catch (error) {
                 console.error("Imagen API error:", error);
-             }
-             return null;
+           }
+           return null;
         }
 
         function sleep(ms) {
@@ -586,12 +592,16 @@ It is absolutely critical that your response is ONLY a valid JSON array that str
                             img.src = imageUrl;
                             img.className = 'h-56 w-full object-cover';
                             img.alt = `AI-generated photo of ${prop.propertyName}`;
+                            img.onerror = function() {
+                                this.onerror=null;
+                                this.parentElement.innerHTML = '<i class="fas fa-exclamation-triangle fa-2x"></i><span>Image Failed</span>';
+                            };
                             currentImageContainer.replaceWith(img);
                         } else {
                             currentImageContainer.innerHTML = '<i class="fas fa-exclamation-triangle fa-2x"></i><span>Image Failed</span>';
                         }
                     }
-                    await sleep(1000);
+                    await sleep(1000); // Rate limit to avoid overwhelming the API
                 }
             }
         }
@@ -643,18 +653,18 @@ It is absolutely critical that your response is ONLY a valid JSON array that str
                 let inferredLocationHtml = '';
                 if (prop.inferredLocation && globalIndex < propertiesPerPage) {
                     inferredLocationHtml = `<div class="font-semibold text-xs text-purple-600 uppercase tracking-wide py-1 text-center bg-purple-50">
-                        <i class="fas fa-map-marker-alt mr-1"></i> Location inferred: ${prop.inferredLocation}
-                        </div>`;
+                            <i class="fas fa-map-marker-alt mr-1"></i> Location inferred: ${prop.inferredLocation}
+                            </div>`;
                 }
                 
                 let imageHtml;
                 if(prop.generatedImageUrl) {
-                    imageHtml = `<img src="${prop.generatedImageUrl}" class="h-56 w-full object-cover" alt="AI-generated photo of ${prop.propertyName}">`;
+                    imageHtml = `<img src="${prop.generatedImageUrl}" class="h-56 w-full object-cover" alt="AI-generated photo of ${prop.propertyName}" onerror="this.onerror=null;this.parentElement.innerHTML = '<div class=\'h-56 w-full object-cover image-loader\'><i class=\'fas fa-exclamation-triangle fa-2x\'></i><span>Image Failed</span></div>';">`;
                 } else {
                     imageHtml = `<div id="${imageId}" class="h-56 w-full object-cover image-loader">
-                            <i class="fas fa-image fa-2x"></i>
-                            <span>Generating Image...</span>
-                        </div>`;
+                                 <i class="fas fa-image fa-2x"></i>
+                                 <span>Generating Image...</span>
+                             </div>`;
                 }
 
                 cardWrapper.innerHTML = `
@@ -728,7 +738,12 @@ It is absolutely critical that your response is ONLY a valid JSON array that str
 
         // --- LOCAL STORAGE LIKES ---
         function getLikedProperties() {
-            return JSON.parse(localStorage.getItem('likedProperties')) || [];
+            try {
+                return JSON.parse(localStorage.getItem('likedProperties')) || [];
+            } catch (e) {
+                console.error("Could not parse liked properties from localStorage:", e);
+                return [];
+            }
         }
 
         function toggleLike(propertyObject, iconElement) {
@@ -794,17 +809,17 @@ It is absolutely critical that your response is ONLY a valid JSON array that str
                 const scoreColor = score > 7 ? 'bg-green-500' : score > 4 ? 'bg-yellow-500' : 'bg-red-500';
 
                  return `
-                 <div>
-                    <h6 class="font-semibold text-gray-800 mb-2 flex items-center"><i class="${iconClass} w-6 text-gray-400"></i>${category}</h6>
-                     <div class="flex items-center mb-2">
-                        <div class="w-full bg-gray-200 rounded-full h-2.5">
-                           <div class="${scoreColor} h-2.5 rounded-full" style="width: ${score * 10}%"></div>
+                    <div>
+                        <h6 class="font-semibold text-gray-800 mb-2 flex items-center"><i class="${iconClass} w-6 text-gray-400"></i>${category}</h6>
+                         <div class="flex items-center mb-2">
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                               <div class="${scoreColor} h-2.5 rounded-full" style="width: ${score * 10}%"></div>
+                            </div>
+                            <span class="font-bold ml-3 text-gray-800">${score}/10</span>
                         </div>
-                        <span class="font-bold ml-3 text-gray-800">${score}/10</span>
+                        <p class="text-sm text-gray-600 pl-6">${description}</p>
                     </div>
-                    <p class="text-sm text-gray-600 pl-6">${description}</p>
-                 </div>
-            `;
+                `;
             }
 
             modalContent.innerHTML = `
