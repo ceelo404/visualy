@@ -470,10 +470,10 @@ The user has also provided the following answers to vibe questions:
 Your analysis MUST follow these steps:
 1.  **Holistic Vibe Deconstruction:** Synthesize ALL uploaded images AND the vibe question answers to create a single, cohesive "Lifestyle Profile."
 2.  **Translate to Home Style:** Convert this profile into a corresponding architectural and interior design style.
-3.  **Visual Keyword Extraction:** Create a "visualKeywords" array of 3-5 concrete keywords describing a HOME that matches this translated style.
+3.  **Visual Keyword Extraction:** Create a "visualKeywords" field. This MUST be a single string containing 3 to 5 comma-separated keywords. Example: "exposed brick, industrial lighting, large windows".
 4.  **Lifestyle & Contact Analysis:** For each property, generate realistic details.
     -   **Address:** First, generate a full, realistic address for the property. This is a NON-NEGOTIABLE first step. If you cannot generate a valid address, do not proceed with this property.
-    -   **Proximity Details:** Based *only* on the generated address, for each category (restaurants, nightlife, parks, transportation), you MUST provide a detailed 'description' string that includes an overall score (e.g., "Score: 8/10") and mentions at least 2-3 specific, named venues.
+    -   **Proximity Details:** Based *only* on the generated address, provide a detailed description string for each proximity category. This string must include an overall score (e.g., "Score: 8/10") and mention at least 2-3 specific, named venues.
 
 **CRITICAL RULES FOR RESPONSE FORMATTING:**
 1.  **COMPLETE DATA IS MANDATORY:** Every property object MUST have a valid, non-empty value for ALL fields.
@@ -530,7 +530,7 @@ It is absolutely critical that your response is ONLY a valid JSON array that str
                                         transportation: { type: "STRING" }
                                     }
                                 },
-                                visualKeywords: { type: "ARRAY", items: {type: "STRING"} },
+                                visualKeywords: { type: "STRING" },
                                 matchJustification: { type: "STRING" },
                                 inferredLocation: { type: "STRING" }
                             }
@@ -541,7 +541,7 @@ It is absolutely critical that your response is ONLY a valid JSON array that str
         }
         
         async function generatePropertyImage(prop) {
-             const keywordsString = prop.visualKeywords ? prop.visualKeywords.join(', ') : '';
+             const keywordsString = prop.visualKeywords ? prop.visualKeywords : '';
              const imagePrompt = `Photorealistic, exterior shot of a modern rental property named "${prop.propertyName}". Aesthetic style: ${prop.aestheticStyle}. Key visual features MUST include: ${keywordsString}. Located in ${prop.address}. High-end, architectural photography.`;
              const payload = { instances: [{ prompt: imagePrompt }], parameters: { "sampleCount": 1 } };
              const apiKey = ""; // Managed by environment
@@ -772,8 +772,8 @@ It is absolutely critical that your response is ONLY a valid JSON array that str
 
         function showDetailsModal(prop) {
             let keywordsHtml = '<p class="text-sm text-gray-500">No specific aesthetic keywords were identified.</p>';
-            if (prop.visualKeywords && prop.visualKeywords.length > 0) {
-                keywordsHtml = prop.visualKeywords.map(keyword => `<span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">${keyword}</span>`).join('');
+            if (prop.visualKeywords && typeof prop.visualKeywords === 'string') {
+                keywordsHtml = prop.visualKeywords.split(',').map(keyword => `<span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">${keyword.trim()}</span>`).join('');
             }
             
             const renderCategory = (category, data, iconClass) => {
