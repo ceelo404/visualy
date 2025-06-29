@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visualy - Alpha v2.2</title>
+    <title>Visualy - Alpha v2.4</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- IMPORTANT: This file must exist and contain your API Key for the live version -->
+    <script src="config.js" defer></script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -268,7 +270,6 @@
         let currentPage = 1;
         const propertiesPerPage = 6;
         let vibeAnswers = {};
-        const API_KEY = "YOUR_API_KEY_HERE";
 
         // --- EVENT LISTENERS ---
         imageUpload.addEventListener('change', (e) => {
@@ -470,7 +471,7 @@ The user has also provided the following answers to vibe questions:
 Your analysis MUST follow these steps:
 1.  **Holistic Vibe Deconstruction:** Synthesize ALL uploaded images AND the vibe question answers to create a single, cohesive "Lifestyle Profile."
 2.  **Translate to Home Style:** Convert this profile into a corresponding architectural and interior design style.
-3.  **Visual Keyword Extraction:** Create a "visualKeywords" field. This MUST be a single string containing 3 to 5 comma-separated keywords. Example: "exposed brick, industrial lighting, large windows". This is a strict rule: DO NOT EXCEED 5 KEYWORDS.
+3.  **Visual Keyword Extraction:** Create a "visualKeywords" field. This MUST be a single string containing ONLY 3 to 5 comma-separated keywords. Example: "exposed brick, industrial lighting, large windows". This is a strict rule: DO NOT EXCEED 5 KEYWORDS.
 4.  **Lifestyle & Contact Analysis:** For each property, generate realistic details.
     -   **Address:** First, generate a full, realistic address for the property. This is a NON-NEGOTIABLE first step.
     -   **Proximity Details:** Based *only* on the generated address, provide a detailed description string for each proximity category. This string must include an overall score (e.g., "Score: 8/10") and mention at least 2-3 specific, named venues.
@@ -778,7 +779,6 @@ It is absolutely critical that your response is ONLY a valid JSON array that str
                 keywordsHtml = prop.visualKeywords.split(',')
                     .map(keyword => keyword.trim())
                     .filter(k => k)
-                    .slice(0, 5) // Ensure we only ever show a max of 5
                     .map(keyword => `<span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">${keyword}</span>`)
                     .join('');
             }
