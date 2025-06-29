@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visualy - Alpha v1.18</title>
+    <title>Visualy - Alpha v2.1</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- IMPORTANT: This file must exist and contain your API Key for the live version -->
+    <script src="config.js" defer></script> 
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -51,7 +53,7 @@
         }
         .vibe-option.selected {
             transform: scale(1.05);
-            box-shadow: 0 0 0 3px #818cf8; /* indigo-400 */
+            box-shadow: 0 0 0 3px #a78bfa; /* violet-400 */
             background-color: rgba(255, 255, 255, 0.2) !important;
         }
         .color-swatch {
@@ -425,8 +427,7 @@
         async function getPropertyDescriptions(queryText, images, vibeData) {
             const prompt = createDetailedPrompt(queryText, vibeData, images.length);
             const payload = createGeminiPayload(prompt, images);
-            const apiKey = "";
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
 
             const response = await fetch(apiUrl, {
                 method: 'POST',
@@ -545,7 +546,7 @@ It is absolutely critical that your response is ONLY a valid JSON array that str
              const keywordsString = prop.visualKeywords ? prop.visualKeywords : '';
              const imagePrompt = `Photorealistic, exterior shot of a modern rental property named "${prop.propertyName}". Aesthetic style: ${prop.aestheticStyle}. Key visual features MUST include: ${keywordsString}. Located in ${prop.address}. High-end, architectural photography.`;
              const payload = { instances: [{ prompt: imagePrompt }], parameters: { "sampleCount": 1 } };
-             const apiKey = "YOUR_API_KEY_HERE";
+             const apiKey = API_KEY;
              const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
 
              try {
