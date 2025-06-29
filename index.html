@@ -3,12 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visualy - Alpha v2.4c</title>
+    <title>Visualy - Alpha v2.5</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <!-- IMPORTANT: This file must exist and contain your API Key for the live version -->
-    <script src="config.js" defer></script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -406,10 +404,6 @@
             loadMoreContainer.classList.add('hidden');
 
             try {
-                // Check if API_KEY is available
-                if (typeof window.API_KEY === 'undefined' || !window.API_KEY) {
-                    throw new Error("API Key is not configured. Please check your config.js file.");
-                }
                 const properties = await getPropertyDescriptions(queryText, uploadedImages, vibeAnswers);
                 if (properties && properties.length > 0) {
                     properties.forEach(p => p.propertyId = crypto.randomUUID());
@@ -431,8 +425,8 @@
         async function getPropertyDescriptions(queryText, images, vibeData) {
             const prompt = createDetailedPrompt(queryText, vibeData, images.length);
             const payload = createGeminiPayload(prompt, images);
-            // *** FIXED: Access API_KEY from the global window object ***
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${window.API_KEY}`;
+            const apiKey = ""; // API key is handled by the environment.
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
             const response = await fetch(apiUrl, {
                 method: 'POST',
@@ -551,8 +545,8 @@ It is absolutely critical that your response is ONLY a valid JSON array that str
            const keywordsString = prop.visualKeywords ? prop.visualKeywords : '';
            const imagePrompt = `Photorealistic, exterior shot of a modern rental property named "${prop.propertyName}". Aesthetic style: ${prop.aestheticStyle}. Key visual features MUST include: ${keywordsString}. Located in ${prop.address}. High-end, architectural photography.`;
            const payload = { instances: [{ prompt: imagePrompt }], parameters: { "sampleCount": 1 } };
-           // *** FIXED: Access API_KEY from the global window object ***
-           const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${window.API_KEY}`;
+           const apiKey = ""; // API key is handled by the environment.
+           const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
 
            try {
                 const response = await fetch(apiUrl, {
