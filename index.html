@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -64,11 +64,15 @@
         .placeholder-white::placeholder {
             color: rgba(255, 255, 255, 0.6);
         }
+        .star-rating i {
+            color: #f59e0b; /* amber-500 */
+        }
     </style>
 </head>
 <body class="bg-gray-100">
 
     <div id="app" class="min-h-screen">
+        <!-- Header -->
         <header class="gradient-bg text-white shadow-md p-6 sticky top-0 z-40">
             <div class="container mx-auto max-w-5xl flex justify-between items-center">
                 <div class="flex items-center space-x-3">
@@ -84,99 +88,104 @@
             </div>
         </header>
 
+        <!-- Main Content -->
         <main id="main-content" class="container mx-auto max-w-5xl p-4 md:p-8">
+            <!-- Search View Content -->
             <div id="search-view">
-                 <div class="relative rounded-2xl shadow-2xl overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop" alt="Stylish home background" class="absolute inset-0 w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-black/60"></div>
-                    <div class="relative p-8 md:p-12 text-center">
-                        <h2 class="text-4xl md:text-5xl font-bold text-white mb-4">Find a Home That Gets Your Style.</h2>
-                        <p class="text-lg text-white/90 mb-8 max-w-2xl mx-auto">Upload any image that represents your personal vibe—art, fashion, interiors—and we'll find homes that match your unique aesthetic.</p>
+                <div class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-2">Find a Home That Gets Your Style.</h2>
+                    <p class="text-gray-600 mb-6">Upload any image that represents your personal vibe—art, fashion, interiors—and we'll find homes that match your unique aesthetic.</p>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start max-w-4xl mx-auto">
+                    <!-- Input Section -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                        <div>
+                            <label for="text-input" class="block text-sm font-medium text-gray-700 mb-2">Refine Location or Style (Optional)</label>
+                            <input type="text" id="text-input" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition" placeholder="e.g., 'near downtown Atlanta'">
+                        </div>
+
+                        <div class="flex flex-col items-center justify-center w-full">
+                            <label for="image-upload" class="flex flex-col items-center justify-center w-full h-32 md:h-full border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition">
+                                <div class="flex flex-col items-center justify-center">
+                                    <i id="upload-icon" class="fas fa-plus-circle text-4xl text-gray-400 mb-3"></i>
+                                    <p id="upload-text" class="mb-2 text-sm text-gray-500"><span class="font-semibold">Add Photos (up to 3)</span></p>
+                                    <input id="image-upload" type="file" class="hidden" accept="image/*" multiple/>
+                                </div>
+                            </label>
+                            <div id="image-preview-container" class="mt-4 flex flex-wrap gap-4 justify-center"></div>
+                        </div>
+                    </div>
+                    
+                     <!-- Vibe Questions Section -->
+                    <div class="mt-6 text-center">
+                        <button id="refine-vibe-btn" class="text-indigo-600 hover:text-indigo-800 font-semibold">
+                            Refine Your Vibe <i class="fas fa-chevron-down ml-1 transition-transform"></i>
+                        </button>
+                    </div>
+
+                    <div id="vibe-questions" class="hidden mt-6 pt-6 border-t">
+                         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            <!-- Question 1: Weekend -->
                             <div>
-                                <label for="text-input" class="block text-sm font-medium text-white/80 mb-2 text-left">Refine Location or Style (Optional)</label>
-                                <input type="text" id="text-input" class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 transition" placeholder="e.g., 'near downtown Atlanta'">
+                                <h4 class="font-semibold text-gray-700 mb-3 text-center">Ideal Weekend?</h4>
+                                <div class="space-y-3" data-question="weekend">
+                                    <div class="vibe-option p-4 border rounded-lg cursor-pointer text-center" data-value="A quiet night in with a book">
+                                        <i class="fas fa-book-open text-2xl mb-2 text-indigo-500"></i><p class="text-sm">Quiet Night In</p>
+                                    </div>
+                                    <div class="vibe-option p-4 border rounded-lg cursor-pointer text-center" data-value="Hosting a dinner party for friends">
+                                         <i class="fas fa-utensils text-2xl mb-2 text-indigo-500"></i><p class="text-sm">Dinner Party</p>
+                                    </div>
+                                    <div class="vibe-option p-4 border rounded-lg cursor-pointer text-center" data-value="Exploring the city's nightlife">
+                                         <i class="fas fa-martini-glass-citrus text-2xl mb-2 text-indigo-500"></i><p class="text-sm">Nightlife</p>
+                                    </div>
+                                </div>
                             </div>
-
-                            <div class="flex flex-col items-center justify-center w-full">
-                                <label for="image-upload" class="flex flex-col items-center justify-center w-full h-32 md:h-full border-2 border-white/20 border-dashed rounded-lg cursor-pointer bg-white/10 hover:bg-white/20 transition">
-                                    <div class="flex flex-col items-center justify-center">
-                                        <i id="upload-icon" class="fas fa-plus-circle text-4xl text-white/80 mb-3"></i>
-                                        <p id="upload-text" class="mb-2 text-sm text-white/80"><span class="font-semibold">Add Photos (up to 3)</span></p>
-                                        <input id="image-upload" type="file" class="hidden" accept="image/*" multiple/>
+                            <!-- Question 2: Colors -->
+                            <div>
+                                <h4 class="font-semibold text-gray-700 mb-3 text-center">Color Palette?</h4>
+                                <div class="space-y-3" data-question="colors">
+                                     <div class="vibe-option p-4 border rounded-lg cursor-pointer text-center" data-value="Neutral and earthy tones">
+                                        <div><span class="color-swatch" style="background-color: #e2e8f0;"></span><span class="color-swatch" style="background-color: #a0aec0;"></span><span class="color-swatch" style="background-color: #718096;"></span></div>
+                                        <p class="text-sm mt-2">Neutral & Earthy</p>
                                     </div>
-                                </label>
-                                <div id="image-preview-container" class="mt-4 flex flex-wrap gap-4 justify-center"></div>
+                                     <div class="vibe-option p-4 border rounded-lg cursor-pointer text-center" data-value="Warm and cozy colors">
+                                        <div><span class="color-swatch" style="background-color: #fbd38d;"></span><span class="color-swatch" style="background-color: #f6ad55;"></span><span class="color-swatch" style="background-color: #ed8936;"></span></div>
+                                        <p class="text-sm mt-2">Warm & Cozy</p>
+                                    </div>
+                                     <div class="vibe-option p-4 border rounded-lg cursor-pointer text-center" data-value="Bold and vibrant shades">
+                                        <div><span class="color-swatch" style="background-color: #63b3ed;"></span><span class="color-swatch" style="background-color: #4299e1;"></span><span class="color-swatch" style="background-color: #3182ce;"></span></div>
+                                        <p class="text-sm mt-2">Bold & Vibrant</p>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        
-                         <div class="mt-6 text-center">
-                            <button id="refine-vibe-btn" class="text-white/80 hover:text-white font-semibold">
-                                Refine Your Vibe <i class="fas fa-chevron-down ml-1 transition-transform"></i>
-                            </button>
-                        </div>
+                             <!-- Question 3: Materials -->
+                            <div>
+                                <h4 class="font-semibold text-gray-700 mb-3 text-center">Primary Material?</h4>
+                                <div class="space-y-3" data-question="materials">
+                                    <div class="vibe-option p-4 border rounded-lg cursor-pointer text-center" data-value="Natural wood and stone">
+                                        <i class="fas fa-tree text-2xl mb-2 text-indigo-500"></i><p class="text-sm">Wood & Stone</p>
+                                    </div>
+                                    <div class="vibe-option p-4 border rounded-lg cursor-pointer text-center" data-value="Sleek metal and glass">
+                                        <i class="fas fa-city text-2xl mb-2"></i><p class="text-sm">Metal & Glass</p>
+                                    </div>
+                                    <div class="vibe-option p-4 border rounded-lg cursor-pointer text-center" data-value="Exposed brick and concrete">
+                                        <i class="fas fa-building text-2xl mb-2"></i><p class="text-sm">Brick & Concrete</p>
+                                    </div>
+                                </div>
+                            </div>
+                         </div>
+                    </div>
 
-                        <div id="vibe-questions" class="hidden mt-6 pt-6 border-t border-white/20">
-                             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                <div>
-                                    <h4 class="font-semibold text-white mb-3 text-center">Ideal Weekend?</h4>
-                                    <div class="space-y-3" data-question="weekend">
-                                        <div class="vibe-option p-4 border border-white/20 bg-white/10 text-white/80 rounded-lg cursor-pointer text-center hover:bg-white/20" data-value="A quiet night in with a book">
-                                            <i class="fas fa-book-open text-2xl mb-2"></i><p class="text-sm">Quiet Night In</p>
-                                        </div>
-                                        <div class="vibe-option p-4 border border-white/20 bg-white/10 text-white/80 rounded-lg cursor-pointer text-center hover:bg-white/20" data-value="Hosting a dinner party for friends">
-                                             <i class="fas fa-utensils text-2xl mb-2"></i><p class="text-sm">Dinner Party</p>
-                                        </div>
-                                        <div class="vibe-option p-4 border border-white/20 bg-white/10 text-white/80 rounded-lg cursor-pointer text-center hover:bg-white/20" data-value="Exploring the city's nightlife">
-                                             <i class="fas fa-martini-glass-citrus text-2xl mb-2"></i><p class="text-sm">Nightlife</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <h4 class="font-semibold text-white mb-3 text-center">Color Palette?</h4>
-                                    <div class="space-y-3" data-question="colors">
-                                         <div class="vibe-option p-4 border border-white/20 bg-white/10 text-white/80 rounded-lg cursor-pointer text-center hover:bg-white/20" data-value="Neutral and earthy tones">
-                                            <div><span class="color-swatch" style="background-color: #e2e8f0;"></span><span class="color-swatch" style="background-color: #a0aec0;"></span><span class="color-swatch" style="background-color: #718096;"></span></div>
-                                            <p class="text-sm mt-2">Neutral & Earthy</p>
-                                        </div>
-                                         <div class="vibe-option p-4 border border-white/20 bg-white/10 text-white/80 rounded-lg cursor-pointer text-center hover:bg-white/20" data-value="Warm and cozy colors">
-                                            <div><span class="color-swatch" style="background-color: #fbd38d;"></span><span class="color-swatch" style="background-color: #f6ad55;"></span><span class="color-swatch" style="background-color: #ed8936;"></span></div>
-                                            <p class="text-sm mt-2">Warm & Cozy</p>
-                                        </div>
-                                         <div class="vibe-option p-4 border border-white/20 bg-white/10 text-white/80 rounded-lg cursor-pointer text-center hover:bg-white/20" data-value="Bold and vibrant shades">
-                                            <div><span class="color-swatch" style="background-color: #63b3ed;"></span><span class="color-swatch" style="background-color: #4299e1;"></span><span class="color-swatch" style="background-color: #3182ce;"></span></div>
-                                            <p class="text-sm mt-2">Bold & Vibrant</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                 <div>
-                                    <h4 class="font-semibold text-white mb-3 text-center">Primary Material?</h4>
-                                    <div class="space-y-3" data-question="materials">
-                                        <div class="vibe-option p-4 border border-white/20 bg-white/10 text-white/80 rounded-lg cursor-pointer text-center hover:bg-white/20" data-value="Natural wood and stone">
-                                            <i class="fas fa-tree text-2xl mb-2"></i><p class="text-sm">Wood & Stone</p>
-                                        </div>
-                                        <div class="vibe-option p-4 border border-white/20 bg-white/10 text-white/80 rounded-lg cursor-pointer text-center hover:bg-white/20" data-value="Sleek metal and glass">
-                                            <i class="fas fa-city text-2xl mb-2"></i><p class="text-sm">Metal & Glass</p>
-                                        </div>
-                                        <div class="vibe-option p-4 border border-white/20 bg-white/10 text-white/80 rounded-lg cursor-pointer text-center hover:bg-white/20" data-value="Exposed brick and concrete">
-                                            <i class="fas fa-building text-2xl mb-2"></i><p class="text-sm">Brick & Concrete</p>
-                                        </div>
-                                    </div>
-                                </div>
-                             </div>
-                        </div>
-
-                        <div class="mt-8 text-center">
-                            <button id="find-matches-btn" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-4 px-16 rounded-full transition-transform transform hover:scale-105 shadow-lg focus:outline-none focus:ring-4 focus:ring-indigo-300 text-lg">
-                                <span id="btn-text">Find Matches</span>
-                                <i id="btn-loader" class="fas fa-spinner fa-spin hidden ml-2"></i>
-                            </button>
-                        </div>
+                    <!-- Find Matches Button -->
+                    <div class="mt-8 text-center">
+                        <button id="find-matches-btn" class="w-full md:w-auto bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-12 rounded-full transition-transform transform hover:scale-105 shadow-lg focus:outline-none focus:ring-4 focus:ring-indigo-300">
+                            <span id="btn-text">Find Matches</span>
+                            <i id="btn-loader" class="fas fa-spinner fa-spin hidden ml-2"></i>
+                        </button>
                     </div>
                 </div>
             </div>
 
+            <!-- Results Section (for both Search and Likes) -->
             <div id="results-section" class="mt-12 hidden">
                  <div class="flex justify-between items-center mb-6 flex-wrap">
                     <h3 id="results-title" class="text-2xl font-bold text-gray-800 mb-4 sm:mb-0">Comparable Properties</h3>
@@ -189,23 +198,27 @@
                     </div>
                 </div>
                 <div id="results-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    </div>
+                    <!-- Results will be injected here -->
+                </div>
                 <div id="load-more-container" class="mt-10 text-center hidden">
                     <button id="load-more-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-12 rounded-full transition-transform transform hover:scale-105 shadow-lg focus:outline-none focus:ring-4 focus:ring-indigo-300">
                         Load More Results
                     </button>
                 </div>
                  <div id="no-results-message" class="text-center py-12 text-gray-500 hidden">
-                    </div>
+                    <!-- Message is set dynamically -->
+                </div>
             </div>
 
-             <div id="error-message" class="mt-8 hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg" role="alert">
+             <!-- Error Message -->
+            <div id="error-message" class="mt-8 hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg" role="alert">
                 <strong class="font-bold">Oops!</strong>
                 <span class="block sm:inline" id="error-text">Something went wrong. Please try again.</span>
             </div>
         </main>
     </div>
 
+    <!-- Property Details Modal -->
     <div id="details-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex justify-center items-center p-4">
         <div id="modal-container" class="bg-white rounded-lg shadow-xl w-full max-w-lg relative transition-transform transform scale-95">
             <button id="close-modal-btn" class="absolute top-3 right-4 text-gray-400 hover:text-gray-800 text-2xl font-bold">&times;</button>
@@ -428,7 +441,6 @@
             const jsonText = result.candidates?.[0]?.content?.parts?.[0]?.text;
             
             if (jsonText) {
-                // First, clean the response to remove potential markdown and ensure it's a valid JSON string.
                 const cleanedJsonText = jsonText.replace(/```json/g, '').replace(/```/g, '').trim();
                 console.log("Cleaned AI Response Text:", cleanedJsonText);
                 try {
@@ -765,7 +777,6 @@ It is absolutely critical that your response is ONLY a valid JSON array that str
                 keywordsHtml = prop.visualKeywords.split(',')
                     .map(keyword => keyword.trim())
                     .filter(k => k)
-                    .slice(0, 5) // Ensure we only ever show a max of 5
                     .map(keyword => `<span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">${keyword}</span>`)
                     .join('');
             }
